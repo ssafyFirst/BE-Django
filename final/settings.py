@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'movies',
 
     'rest_framework',
-    'res_framework.authtoken',
+    'rest_framework.authtoken',
 
     'dj_rest_auth',
     'dj_rest_auth.registration',
