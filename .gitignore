@@ -1,6 +1,10 @@
 # Created by httpswww.toptal.comdevelopersgitignoreapiwindows,macos,python,django
 # Edit at httpswww.toptal.comdevelopersgitignoretemplates=windows,macos,python,django
 
+# secrets.json
+secrets.json
+
+
 ### Django ###
 .log
 .pot
