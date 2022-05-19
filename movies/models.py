@@ -6,10 +6,9 @@ class Genre(models.Model):
 
 
 class Movie(models.Model):
-    adult = models.BooleanField()
+    adult = models.BooleanField(default=False)
 
     backdrop_path = models.CharField(max_length=200)
-    genres_ids = models.ManyToManyField(Genre, related_name='movie')
     original_language = models.CharField(max_length=30)
     original_title = models.CharField(max_length=50)
     overview = models.TextField()
