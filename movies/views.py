@@ -10,11 +10,13 @@ from rest_framework.decorators import api_view
 # Create your views here.
 
 @api_view(['GET', 'POST'])
-def movie_list(request):
+def movie_list(request, page):
+
     movies = Movie.objects.annotate(
         comment_count = Count('comments', distinct=True),            # https://docs.djangoproject.com/en/4.0/topics/db/aggregation/
         like_count = Count('like_users', distinct=True)
-    )
+    ).all()[page:page+100]
+    print(movies)
     serializer = MovieListSerializer(movies, many=True)
     return Response(serializer.data)
     

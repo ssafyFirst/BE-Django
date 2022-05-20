@@ -47,8 +47,8 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'accounts',
-    'actors',
     'movies',
+    'actors',
 
     'rest_framework',
     'rest_framework.authtoken',
@@ -156,12 +156,19 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = BASE_DIR/'media'
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ORIGIN_WHITELIST = ('http://127.0.0.1:3000', 'http://localhost:3000')
+CORS_ORIGIN_WHITELIST = ('http://127.0.0.1:3000', 'http://localhost:8080')
 CORS_ALLOW_CREDENTIALS = True
 
 REST_FRAMEWORK = {
