@@ -55,11 +55,10 @@ def get_movie_datas():
                 }            
                 total_data.append(data)
 
-    with open("./movies/fixtures/movie_data2.json", "w", encoding="utf-8") as w:
+    with open("./movies/fixtures/movie.json", "w", encoding="utf-8") as w:
         json.dump(total_data, w, indent=2, ensure_ascii=False)
 
 get_movie_datas()
-
 
 
 # person/popular
@@ -105,5 +104,3 @@ def get_actor_date() :
         json.dump(total_data, w, indent=2, ensure_ascii=False)
 
 # get_actor_date()
-
-        
