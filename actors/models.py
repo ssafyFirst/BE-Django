@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.conf import settings
 
 # Create your models here.
 class Actor(models.Model):
@@ -9,6 +9,5 @@ class Actor(models.Model):
     movie1 = models.IntegerField(null=True)
     movie2 = models.IntegerField(null=True)
     movie3 = models.IntegerField(null=True)
-    
     
     
