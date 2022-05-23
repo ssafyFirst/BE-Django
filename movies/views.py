@@ -58,3 +58,17 @@ def movie_detail(request, movie_pk):
     if request.method == 'GET':
         serializer = Movie(movie)
         return Response(serializer.data)
+
+
+@api_view('POST')
+def create_comment(request, movie_pk):
+    user = request.user
+    movie = get_object_or_404(Movie, pk=movie_pk)
+
+    serializer = CommentSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(movie=movie, user=user)
+
+        comments = movie.comments.all()
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
