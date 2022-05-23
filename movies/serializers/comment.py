@@ -11,11 +11,9 @@ class CommentSerializer(ModelSerializer):
             model = User
             fields = ('pk', 'username', 'profile_img')
 
+    user = UserSerializer(read_only=True)
+
     class Meta:
         model = Comment
         fields = ('pk', 'user', 'content', 'movie', 'updated_at')
-<<<<<<< HEAD
-        read_only_fields = ('movie','user',)
-=======
-        read_only_fields = ('movie', 'user',)
->>>>>>> 2f3f8358a8e20701d5f104e254afce10fac2d78f
+        read_only_fields = ('movie',)
