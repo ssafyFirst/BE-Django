@@ -15,6 +15,7 @@ class User(AbstractUser):
     like_genres = models.ManyToManyField(Genre, related_name='like_users')
     profile_img = ProcessedImageField(
         blank=True,
+        null=True,
         upload_to='profile_img',
         processors=[ResizeToFill(300, 300)],
         format='JPEG',
