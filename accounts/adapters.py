@@ -7,7 +7,7 @@ class CustomAccountAdapter(DefaultAccountAdapter):
 
         user = super().save_user(request, user, form, False)
 
-        profile_img = data.get('profile_img')
+        profile_img = data.get('profile_img', '')
         if profile_img:
             user.profile_img = profile_img
         
