@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework.response import Response
 from .models import Movie, Genre, Comment
-from .serializers.movie import MovieListSerializer
+from .serializers.movie import MovieListSerializer, MovieSerializer
 from .serializers.comment import CommentSerializer
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -52,15 +52,15 @@ def comment_update_or_delete(request, movie_pk, comment_pk):
         return delete_comment()
 
 
-@api_view('GET')
+@api_view(['GET'])
 def movie_detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     if request.method == 'GET':
-        serializer = Movie(movie)
+        serializer = MovieSerializer(movie)
         return Response(serializer.data)
 
 
-@api_view('POST')
+@api_view(['POST'])
 def create_comment(request, movie_pk):
     user = request.user
     movie = get_object_or_404(Movie, pk=movie_pk)
@@ -72,3 +72,16 @@ def create_comment(request, movie_pk):
         comments = movie.comments.all()
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['POST'])
+def like_movie(request, movie_pk):
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    user = request.user
+    if movie.like_users.filter(pk=user.pk).exists():
+        movie.like_users.remove(user)
+    else:
+        movie.like_users.add(user)
+
+    serializer = MovieSerializer(movie)
+    return Response(serializer.data)
