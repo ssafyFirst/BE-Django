@@ -1,13 +1,12 @@
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import Movie, Comment
 from .serializers.movie import MovieListSerializer, MovieSerializer
 from .serializers.comment import CommentSerializer
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view
 
 
 # Create your views here.
@@ -60,7 +59,6 @@ def movie_detail(request, movie_pk):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def create_comment(request, movie_pk):
     user = request.user
     movie = get_object_or_404(Movie, pk=movie_pk)
