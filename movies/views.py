@@ -24,7 +24,7 @@ def movie_list(request, page):
     serializer = MovieListSerializer(movies, many=True)
     return Response(serializer.data)
     
-@api_view(['GET', 'POST'])
+@api_view(['PUT', 'DELETE'])
 def comment_update_or_delete(request, movie_pk, comment_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     comment = get_object_or_404(Comment, pk=comment_pk)
@@ -44,3 +44,8 @@ def comment_update_or_delete(request, movie_pk, comment_pk):
             comments = movie.comments.all()
             serializer = CommentSerializer(comments, many=True)
             return Response(serializer.data)
+    
+    if request.method == 'PUT':
+        return update_comment()
+    elif request.method == 'DELETE':
+        return delete_comment()
