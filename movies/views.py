@@ -2,14 +2,19 @@ from django.db.models import Count
 from django.shortcuts import get_object_or_404
 
 from rest_framework.response import Response
+
+from accounts.serializers import ProfileSerializer
 from .models import Movie, Comment, Genre
 from .serializers.movie import MovieListSerializer, MovieSerializer
 from .serializers.comment import CommentSerializer
 from .serializers.genre import GenreListSerializer
 from rest_framework import status
 from rest_framework.decorators import api_view
+from django.contrib.auth import get_user_model
 
 # Create your views here.
+
+User = get_user_model()
 
 @api_view(['GET', 'POST'])
 def movie_list(request, page):
@@ -89,4 +94,11 @@ def like_movie(request, movie_pk):
 def genres_list(request):
     genres = Genre.objects.all()
     serializer = GenreListSerializer(genres, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def recommendation(request, username):
+    user = get_object_or_404(User, username=username)
+    serializer = ProfileSerializer(user)
     return Response(serializer.data)
