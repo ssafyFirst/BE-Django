@@ -9,7 +9,7 @@ from rest_framework.response import Response
 User = get_user_model()
 
 def signup2(request):
-    print(credentials)
+    pass
 
 api_view(['GET'])
 def profile(request, username):
