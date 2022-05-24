@@ -5,10 +5,9 @@ from rest_framework.response import Response
 from .models import Movie, Comment, Genre
 from .serializers.movie import MovieListSerializer, MovieSerializer
 from .serializers.comment import CommentSerializer
-from .serializers.gerne import GenreListSerializer
+from .serializers.genre import GenreListSerializer
 from rest_framework import status
 from rest_framework.decorators import api_view
-
 
 # Create your views here.
 

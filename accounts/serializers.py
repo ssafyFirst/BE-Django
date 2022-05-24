@@ -20,11 +20,10 @@ class ProfileSerializer(serializers.ModelSerializer):
 
         class Meta:
             model = Movie
-            fields = ('pk', 'title')
+            fields = ('pk', 'title',)
     
     like_movies = MovieSerializer(many=True)
-    movie = MovieSerializer(many=True)
 
     class Meta:
         model = get_user_model()
-        fields = ('pk', 'like_movies', 'movie',)
+        fields = ('pk', 'like_movies',)
