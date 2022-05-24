@@ -11,6 +11,10 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         if profile_img:
             user.profile_img = profile_img
         
+        like_genres = data.get('like_genres', '')
+        if like_genres:
+            user.like_genres = like_genres
+
         user.save()
 
         return user
