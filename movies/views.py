@@ -4,8 +4,11 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 
 from accounts.serializers import ProfileSerializer
+from actors import serializers
+from actors.models import Actor
+from actors.serializers import ActorSerializer
 from .models import Movie, Comment, Genre
-from .serializers.movie import MovieListSerializer, MovieSerializer
+from .serializers.movie import MovieListSerializer, MovieSerializer, MovieNameListSerializer
 from .serializers.comment import CommentSerializer
 from .serializers.genre import GenreListSerializer
 from rest_framework import status
@@ -105,8 +108,18 @@ def recommendation(request, username):
 
     return Response(serializer.data)
 
+
+@api_view(['GET'])
+def actor_movie(request, movie_pk):
+    movie = get_object_or_404(Movie, pk = movie_pk)
+    serializer = MovieNameListSerializer(movie)
+    return Response(serializer.data)
+
+
 @api_view(['GET'])
 def search_movie(request, keyword):
     movies = Movie.objects.all()
     if keyword:
-        pass
+        movies = movies.filter(title__icontains=keyword)
+        serializer = MovieSerializer(movies, many=True)
+        return Response(serializer.data)
