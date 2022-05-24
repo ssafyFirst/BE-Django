@@ -2,9 +2,10 @@ from django.db.models import Count
 from django.shortcuts import get_object_or_404
 
 from rest_framework.response import Response
-from .models import Movie, Comment
+from .models import Movie, Comment, Genre
 from .serializers.movie import MovieListSerializer, MovieSerializer
 from .serializers.comment import CommentSerializer
+from .serializers.gerne import GenreListSerializer
 from rest_framework import status
 from rest_framework.decorators import api_view
 
@@ -82,4 +83,11 @@ def like_movie(request, movie_pk):
         movie.like_users.add(user)
 
     serializer = MovieSerializer(movie)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def gernes_list(request):
+    gernes = Genre.objects.all()
+    serializer = GenreListSerializer(gernes, many=True)
     return Response(serializer.data)
