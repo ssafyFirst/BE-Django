@@ -99,6 +99,14 @@ def genres_list(request):
 
 @api_view(['GET'])
 def recommendation(request, username):
+
     user = get_object_or_404(User, username=username)
     serializer = ProfileSerializer(user)
+
     return Response(serializer.data)
+
+@api_view(['GET'])
+def search_movie(request, keyword):
+    movies = Movie.objects.all()
+    if keyword:
+        pass
