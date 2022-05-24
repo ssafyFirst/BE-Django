@@ -104,9 +104,14 @@ def genres_list(request):
 def recommendation(request, username):
 
     user = get_object_or_404(User, username=username)
+    
     serializer = ProfileSerializer(user)
 
     return Response(serializer.data)
+
+
+
+
 
 
 @api_view(['GET'])
@@ -114,6 +119,12 @@ def actor_movie(request, movie_pk):
     movie = get_object_or_404(Movie, pk = movie_pk)
     serializer = MovieNameListSerializer(movie)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def like_genre(request, genre_pk):
+    genre = get_object_or_404(Genre, pk=genre_pk)
+    serializer = GenreNameListSerializer(genre)
 
 
 @api_view(['GET'])
@@ -128,4 +139,5 @@ def search_movie(request, keyword):
 def sort_movie(request, keyword):
     movies = Movie.objects.all().order_by(-keyword)
     serializer = MovieSerializer(movies, many=True)
+
     return Response(serializer.data)
