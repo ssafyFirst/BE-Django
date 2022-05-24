@@ -10,7 +10,7 @@ from actors.serializers import ActorSerializer
 from .models import Movie, Comment, Genre
 from .serializers.movie import MovieListSerializer, MovieSerializer, MovieNameListSerializer
 from .serializers.comment import CommentSerializer
-from .serializers.genre import GenreListSerializer, GenreNameListSerializer
+from .serializers.genre import GenreListSerializer
 from rest_framework import status
 from rest_framework.decorators import api_view
 from django.contrib.auth import get_user_model
@@ -61,11 +61,8 @@ def comment_update_or_delete(request, movie_pk, comment_pk):
 @api_view(['GET'])
 def movie_detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
-    
     if request.method == 'GET':
-        
         serializer = MovieSerializer(movie)
-        
         return Response(serializer.data)
 
 
@@ -99,16 +96,21 @@ def like_movie(request, movie_pk):
 @api_view(['GET'])
 def genres_list(request):
     genres = Genre.objects.all()
-    serializer = GenreNameListSerializer(genres, many=True)
+    serializer = GenreListSerializer(genres, many=True)
     return Response(serializer.data)
 
 
 @api_view(['GET'])
 def recommendation(request, username):
+
     user = get_object_or_404(User, username=username)
     
     serializer = ProfileSerializer(user)
+
     return Response(serializer.data)
+
+
+
 
 
 
@@ -118,8 +120,24 @@ def actor_movie(request, movie_pk):
     serializer = MovieNameListSerializer(movie)
     return Response(serializer.data)
 
+
 @api_view(['GET'])
 def like_genre(request, genre_pk):
     genre = get_object_or_404(Genre, pk=genre_pk)
     serializer = GenreNameListSerializer(genre)
+
+
+@api_view(['GET'])
+def search_movie(request, keyword):
+    movies = Movie.objects.all()
+    if keyword:
+        movies = movies.filter(title__icontains=keyword)
+        serializer = MovieSerializer(movies, many=True)
+        return Response(serializer.data)
+
+@api_view(['GET'])
+def sort_movie(request, keyword):
+    movies = Movie.objects.all().order_by(-keyword)
+    serializer = MovieSerializer(movies, many=True)
+
     return Response(serializer.data)
