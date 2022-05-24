@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
-from movies.models import Movie
+from movies.models import Movie, Comment
 from django.contrib.auth import get_user_model
-from movies.serializers.genre import GenreListSerializer
+from movies.serializers.genre import GenreListSerializer, GenreNameListSerializer
 
 class CustomRegisterSerializer(RegisterSerializer):
     profile_img = serializers.ImageField(use_url=True, required=False)
@@ -32,16 +32,23 @@ class CustomRegisterSerializer(RegisterSerializer):
         return data
 
 
-class ProfileSerializer(serializers.HyperlinkedModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
 
     class MovieSerializer(serializers.ModelSerializer):
 
         class Meta:
             model = Movie
-            fields = ('pk', 'title',)
+            fields = ('pk', 'title', 'poster_path')
     
+    class CommentSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Comment
+            fields = '__all__'
+    
+    comments = CommentSerializer(many=True)
     like_movies = MovieSerializer(many=True)
+    like_genres = GenreNameListSerializer(many=True)
 
     class Meta:
         model = get_user_model()
-        fields = ('pk', 'username', 'profile_img', 'like_movies',)
+        fields = ('pk', 'username', 'profile_img', 'like_movies', 'comments', 'like_genres')
