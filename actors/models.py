@@ -9,6 +9,3 @@ class Actor(models.Model):
     movie1 = models.IntegerField(null=True)
     movie2 = models.IntegerField(null=True)
     movie3 = models.IntegerField(null=True)
-    
-    
-    
