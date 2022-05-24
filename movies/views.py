@@ -4,8 +4,11 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 
 from accounts.serializers import ProfileSerializer
+from actors import serializers
+from actors.models import Actor
+from actors.serializers import ActorSerializer
 from .models import Movie, Comment, Genre
-from .serializers.movie import MovieListSerializer, MovieSerializer
+from .serializers.movie import MovieListSerializer, MovieSerializer, MovieNameListSerializer
 from .serializers.comment import CommentSerializer
 from .serializers.genre import GenreListSerializer, GenreNameListSerializer
 from rest_framework import status
@@ -58,8 +61,11 @@ def comment_update_or_delete(request, movie_pk, comment_pk):
 @api_view(['GET'])
 def movie_detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
+    
     if request.method == 'GET':
+        
         serializer = MovieSerializer(movie)
+        
         return Response(serializer.data)
 
 
@@ -101,4 +107,10 @@ def genres_list(request):
 def recommendation(request, username):
     user = get_object_or_404(User, username=username)
     serializer = ProfileSerializer(user)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def actor_movie(request, movie_pk):
+    movie = get_object_or_404(Movie, pk = movie_pk)
+    serializer = MovieNameListSerializer(movie)
     return Response(serializer.data)

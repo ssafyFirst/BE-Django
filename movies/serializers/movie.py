@@ -1,9 +1,11 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
 from movies.serializers.comment import CommentSerializer
+from actors.serializers import ActorSerializer
 
-
+from actors.models import Actor
 from ..models import Movie
 
 User = get_user_model()
@@ -28,7 +30,14 @@ class MovieSerializer(serializers.ModelSerializer):
 
     comments = CommentSerializer(many=True, read_only=True)
     like_users = UserSerializer(read_only=True, many=True)
+    
+   
 
     class Meta:
         model = Movie
         fields = '__all__'
+
+class MovieNameListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movie
+        fields = ('title', 'pk')
