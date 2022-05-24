@@ -16,3 +16,9 @@ def movie_actor(request, actor_pk):
     actor = get_object_or_404(Actor, pk = actor_pk)
     serializer = ActorSerializer(actor)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def actor_detail(request, actor_pk):
+    actor = get_object_or_404(Actor, pk=actor_pk)
+    serializer = ActorListSerializer(actor)
+    return Response(serializer.data)
