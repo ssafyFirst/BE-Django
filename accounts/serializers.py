@@ -8,12 +8,14 @@ class CustomRegisterSerializer(RegisterSerializer):
         class Meta:
             model = Genre
             fields = ('pk',)
-    like_gernes = LikeGernesSerializer(many=True, read_only=True)
+    like_genres = LikeGernesSerializer(many=True)
     profile_img = serializers.ImageField(use_url=True, required=False)
 
     def get_cleaned_data(self):
         data = super().get_cleaned_data()
         data['profile_img'] = self.validated_data.get('profile_img', '')
+        print(self.validated_data)
+        data['like_genres'] = self.validated_data.get('like_genrses', [])
         
         return data
 
