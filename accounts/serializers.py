@@ -24,8 +24,6 @@ class CustomRegisterSerializer(RegisterSerializer):
     def get_cleaned_data(self):
         data = super().get_cleaned_data()
 
-        print(self.validated_data)
-
         data['profile_img'] = self.validated_data.get('profile_img', '')
         data['like_genres'] = self.validated_data.get('like_genres', [])
         

@@ -123,3 +123,9 @@ def search_movie(request, keyword):
         movies = movies.filter(title__icontains=keyword)
         serializer = MovieSerializer(movies, many=True)
         return Response(serializer.data)
+
+@api_view(['GET'])
+def sort_movie(request, keyword):
+    movies = Movie.objects.all().order_by(-keyword)
+    serializer = MovieSerializer(movies, many=True)
+    return Response(serializer.data)
