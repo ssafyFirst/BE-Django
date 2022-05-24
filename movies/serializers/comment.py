@@ -5,13 +5,13 @@ from ..models import Comment
 User = get_user_model()
 
 class CommentSerializer(ModelSerializer):
-
     class UserSerializer(ModelSerializer):
         class Meta:
             model = User
             fields = ('pk', 'username', 'profile_img')
 
     user = UserSerializer(read_only=True)
+        
 
     class Meta:
         model = Comment

@@ -1,10 +1,14 @@
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
-from movies.models import Movie
+from movies.models import Movie, Genre
 from django.contrib.auth import get_user_model
 
 class CustomRegisterSerializer(RegisterSerializer):
-
+    class LikeGernesSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Genre
+            fields = ('pk',)
+    like_gernes = LikeGernesSerializer(many=True, read_only=True)
     profile_img = serializers.ImageField(use_url=True, required=False)
 
     def get_cleaned_data(self):
