@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 
 from accounts.serializers import ProfileSerializer
+from actors.models import Actor
+from actors.serializers import ActorSerializer
 from .models import Movie, Comment, Genre
 from .serializers.movie import MovieListSerializer, MovieSerializer
 from .serializers.comment import CommentSerializer
@@ -58,8 +60,11 @@ def comment_update_or_delete(request, movie_pk, comment_pk):
 @api_view(['GET'])
 def movie_detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
+    
     if request.method == 'GET':
+        
         serializer = MovieSerializer(movie)
+        
         return Response(serializer.data)
 
 
