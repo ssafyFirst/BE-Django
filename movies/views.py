@@ -10,7 +10,7 @@ from actors.serializers import ActorSerializer
 from .models import Movie, Comment, Genre
 from .serializers.movie import MovieListSerializer, MovieSerializer, MovieNameListSerializer
 from .serializers.comment import CommentSerializer
-from .serializers.genre import GenreListSerializer
+from .serializers.genre import GenreListSerializer, GenreNameListSerializer
 from rest_framework import status
 from rest_framework.decorators import api_view
 from django.contrib.auth import get_user_model
