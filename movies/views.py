@@ -87,7 +87,7 @@ def like_movie(request, movie_pk):
 
 
 @api_view(['GET'])
-def gernes_list(request):
-    gernes = Genre.objects.all()
-    serializer = GenreListSerializer(gernes, many=True)
+def genres_list(request):
+    genres = Genre.objects.all()
+    serializer = GenreListSerializer(genres, many=True)
     return Response(serializer.data)

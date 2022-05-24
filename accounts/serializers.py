@@ -9,6 +9,7 @@ class CustomRegisterSerializer(RegisterSerializer):
             model = Genre
             fields = ('pk',)
     like_gernes = LikeGernesSerializer(many=True, read_only=True)
+    
     profile_img = serializers.ImageField(use_url=True, required=False)
 
     def get_cleaned_data(self):
