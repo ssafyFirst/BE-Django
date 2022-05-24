@@ -14,7 +14,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         return data
 
 
-class ProfileSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.HyperlinkedModelSerializer):
 
     class MovieSerializer(serializers.ModelSerializer):
 
