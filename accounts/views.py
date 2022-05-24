@@ -11,8 +11,8 @@ User = get_user_model()
 def signup2(request):
     pass
 
-api_view(['GET'])
+@api_view(['GET'])
 def profile(request, username):
     user = get_object_or_404(User, username=username)
-    serializers = ProfileSerializer(user)
-    return Response(serializers.data)
+    serializer = ProfileSerializer(user)
+    return Response(serializer.data)

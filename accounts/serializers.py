@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
-from movies.models import Movie, Genre
+from movies.models import Movie
 from django.contrib.auth import get_user_model
 
 class CustomRegisterSerializer(RegisterSerializer):
