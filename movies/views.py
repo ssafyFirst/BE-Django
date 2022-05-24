@@ -7,7 +7,7 @@ from accounts.serializers import ProfileSerializer
 from .models import Movie, Comment, Genre
 from .serializers.movie import MovieListSerializer, MovieSerializer
 from .serializers.comment import CommentSerializer
-from .serializers.genre import GenreListSerializer
+from .serializers.genre import GenreListSerializer, GenreNameListSerializer
 from rest_framework import status
 from rest_framework.decorators import api_view
 from django.contrib.auth import get_user_model
@@ -93,7 +93,7 @@ def like_movie(request, movie_pk):
 @api_view(['GET'])
 def genres_list(request):
     genres = Genre.objects.all()
-    serializer = GenreListSerializer(genres, many=True)
+    serializer = GenreNameListSerializer(genres, many=True)
     return Response(serializer.data)
 
 

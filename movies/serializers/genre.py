@@ -6,3 +6,10 @@ class GenreListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
         fields = ('id',)
+
+
+
+class GenreNameListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = '__all__'
