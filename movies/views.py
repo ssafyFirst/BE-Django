@@ -115,7 +115,7 @@ def recommendation(request, username):
     for i in my_movies:
         my_movies_pks.append(i.get('pk'))
 
-    recommendation_movie = Movie.objects.filter(Q(genres__in=my_genres_ids) & ~Q(pk__in=my_movies_pks))
+    recommendation_movie = Movie.objects.filter(Q(genres__in=my_genres_ids) & ~Q(pk__in=my_movies_pks))[:100]
     serializer = MovieSerializer(recommendation_movie, many=True)
     return Response(serializer.data)
 
@@ -141,11 +141,10 @@ def search_movie(request, keyword):
         serializer = MovieSerializer(movies, many=True)
         return Response(serializer.data)
 
+
 @api_view(['GET'])
 def sort_movie(request, keyword, page):
-    
     movies = Movie.objects.order_by(f'-{keyword}').all()[page:page+100]
-    print(movies)
     serializer = MovieSerializer(movies, many=True)
     
     return Response(serializer.data)
@@ -154,9 +153,7 @@ def sort_movie(request, keyword, page):
 
 @api_view(['GET'])
 def sort_movie2(request, keyword, page):
-    
     movies = Movie.objects.order_by(f'{keyword}').all()[page:page+100]
-    print(movies)
     serializer = MovieSerializer(movies, many=True)
     
     return Response(serializer.data)
