@@ -102,7 +102,6 @@ def genres_list(request):
 def recommendation(request, username):
     user = get_object_or_404(User, username=username)
     
-
     serializer = ProfileSerializer(user)
     my_movies = serializer.data.get('like_movies', {})
     my_genres = serializer.data.get('like_genres', {})
@@ -161,4 +160,3 @@ def sort_movie2(request, keyword, page):
     serializer = MovieSerializer(movies, many=True)
     
     return Response(serializer.data)
-
