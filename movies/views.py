@@ -94,7 +94,7 @@ def like_movie(request, movie_pk):
 @api_view(['GET'])
 def genres_list(request):
     genres = Genre.objects.all()
-    serializer = GenreListSerializer(genres, many=True)
+    serializer = GenreNameListSerializer(genres, many=True)
     return Response(serializer.data)
 
 
@@ -115,7 +115,7 @@ def recommendation(request, username):
     for i in my_movies:
         my_movies_pks.append(i.get('pk'))
 
-    recommendation_movie = Movie.objects.filter(Q(genres__in=my_genres_ids) & ~Q(pk__in=my_movies_pks))
+    recommendation_movie = Movie.objects.filter(Q(genres__in=my_genres_ids) & ~Q(pk__in=my_movies_pks)).order_by('-vote_average')[:100]
     serializer = MovieSerializer(recommendation_movie, many=True)
     return Response(serializer.data)
 
@@ -131,6 +131,7 @@ def actor_movie(request, movie_pk):
 def like_genre(request, genre_pk):
     genre = get_object_or_404(Genre, pk=genre_pk)
     serializer = GenreNameListSerializer(genre)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
