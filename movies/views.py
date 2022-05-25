@@ -101,8 +101,8 @@ def genres_list(request):
 @api_view(['GET'])
 def recommendation(request, username):
     user = get_object_or_404(User, username=username)
-    movies = Movie.objects.all()
     
+
     serializer = ProfileSerializer(user)
     my_movies = serializer.data.get('like_movies', {})
     my_genres = serializer.data.get('like_genres', {})
@@ -143,10 +143,22 @@ def search_movie(request, keyword):
         return Response(serializer.data)
 
 @api_view(['GET'])
-def sort_movie(request, keyword):
-    movies = Movie.objects.all().order_by(-keyword)
+def sort_movie(request, keyword, page):
+    
+    movies = Movie.objects.order_by(f'-{keyword}').all()[page:page+100]
+    print(movies)
     serializer = MovieSerializer(movies, many=True)
-
+    
     return Response(serializer.data)
 
+
+
+@api_view(['GET'])
+def sort_movie2(request, keyword, page):
+    
+    movies = Movie.objects.order_by(f'{keyword}').all()[page:page+100]
+    print(movies)
+    serializer = MovieSerializer(movies, many=True)
+    
+    return Response(serializer.data)
 

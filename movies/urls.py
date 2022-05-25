@@ -15,6 +15,7 @@ urlpatterns = [
     path('movies/<int:genre_pk>/', views.like_genre),
 
     path('search/<keyword>/', views.search_movie),
-    path('sort/<keyword>/', views.sort_movie),
+    path('sort/<keyword>/<int:page>/', views.sort_movie),
+    path('sort/<keyword>/<int:page>/2/', views.sort_movie2),
 
 ]
