@@ -4,9 +4,6 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 
 from accounts.serializers import ProfileSerializer
-from actors import serializers
-from actors.models import Actor
-from actors.serializers import ActorSerializer
 from .models import Movie, Comment, Genre
 from .serializers.movie import MovieListSerializer, MovieSerializer, MovieNameListSerializer
 from .serializers.comment import CommentSerializer
@@ -14,6 +11,7 @@ from .serializers.genre import GenreListSerializer, GenreNameListSerializer
 from rest_framework import status
 from rest_framework.decorators import api_view
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 
 # Create your views here.
 
@@ -102,16 +100,25 @@ def genres_list(request):
 
 @api_view(['GET'])
 def recommendation(request, username):
-
     user = get_object_or_404(User, username=username)
+    movies = Movie.objects.all()
     
     serializer = ProfileSerializer(user)
+    my_movies = serializer.data.get('like_movies', {})
+    my_genres = serializer.data.get('like_genres', {})
+    my_genres_ids = []
+    my_movies_pks = []
+    # 좋아하는 장르의 id들
+    for i in my_genres:
+        my_genres_ids.append(i.get('id'))
+    
+    # 좋아하는 영화들
+    for i in my_movies:
+        my_movies_pks.append(i.get('pk'))
 
+    recommendation_movie = Movie.objects.filter(Q(genres__in=my_genres_ids) & ~Q(pk__in=my_movies_pks))
+    serializer = MovieSerializer(recommendation_movie, many=True)
     return Response(serializer.data)
-
-
-
-
 
 
 @api_view(['GET'])
@@ -141,3 +148,5 @@ def sort_movie(request, keyword):
     serializer = MovieSerializer(movies, many=True)
 
     return Response(serializer.data)
+
+
