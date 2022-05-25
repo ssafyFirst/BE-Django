@@ -115,11 +115,7 @@ def recommendation(request, username):
     for i in my_movies:
         my_movies_pks.append(i.get('pk'))
 
-<<<<<<< HEAD
     recommendation_movie = Movie.objects.filter(Q(genres__in=my_genres_ids) & ~Q(pk__in=my_movies_pks)).order_by('-vote_average')[:100]
-=======
-    recommendation_movie = Movie.objects.filter(Q(genres__in=my_genres_ids) & ~Q(pk__in=my_movies_pks))[:100]
->>>>>>> d58e9e70cf44eb3d97f2dcbfe1b648d09df01ba2
     serializer = MovieSerializer(recommendation_movie, many=True)
     return Response(serializer.data)
 
