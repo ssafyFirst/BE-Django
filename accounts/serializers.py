@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from movies.serializers.genre import GenreListSerializer, GenreNameListSerializer
 
 class CustomRegisterSerializer(RegisterSerializer):
-    profile_img = serializers.ImageField(use_url=True, required=False)
+    profile_img = serializers.ImageField(use_url=True, required=False, default='profile_img/비로그인.png')
     like_genres = GenreListSerializer(many=True)
 
 

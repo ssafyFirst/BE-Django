@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from actors.models import Actor
@@ -19,6 +20,7 @@ class User(AbstractUser):
         processors=[ResizeToFill(300, 300)],
         format='JPEG',
         options={'quality': 70},
+        default='profile_img/비로그인.png'
     )
 
     point = models.IntegerField(

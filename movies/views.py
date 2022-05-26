@@ -115,7 +115,7 @@ def recommendation(request, username):
     for i in my_movies:
         my_movies_pks.append(i.get('pk'))
 
-    recommendation_movie = Movie.objects.filter(Q(genres__in=my_genres_ids) & ~Q(pk__in=my_movies_pks)).order_by('vote_average')[:100]
+    recommendation_movie = Movie.objects.filter(Q(genres__in=my_genres_ids) & ~Q(pk__in=my_movies_pks)).order_by('vote_average')[:12]
     serializer = MovieSerializer(recommendation_movie, many=True)
     return Response(serializer.data)
 
@@ -137,12 +137,19 @@ def like_genre(request, genre_pk):
 @api_view(['GET'])
 def search_movie(request, keyword):
     
+    def insert_whitespace(string):
+        s = []
+        for i in range(0, len(string)):
+            s.append(string[i:i+1])
+        return '\s*'.join(s)
+    
     if keyword:
-        movies = Movie.objects.filter(title__icontains=keyword).all()
-        print(movies)
+        movies = Movie.objects.filter(title__iregex= insert_whitespace(keyword)).order_by('title').all()
         serializer = MovieSerializer(movies, many=True)
         return Response(serializer.data)
     
+
+
 @api_view(['GET'])
 def no_search_movie(request):
     movies = Movie.objects.none()
@@ -166,3 +173,17 @@ def sort_movie2(request, keyword, page):
     serializer = MovieSerializer(movies, many=True)
     
     return Response(serializer.data)
+
+@api_view(['GET'])
+def search_sort_movie(request, keyword, sort):
+    
+    def insert_whitespace(string):
+        s = []
+        for i in range(0, len(string)):
+            s.append(string[i:i+1])
+        return '\s*'.join(s)
+    
+    if keyword:
+        movies = Movie.objects.filter(title__iregex= insert_whitespace(keyword)).order_by(f'{sort}').all()
+        serializer = MovieSerializer(movies, many=True)
+        return Response(serializer.data)
